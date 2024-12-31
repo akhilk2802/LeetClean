@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Hide LeetCode Details",
+    "version": "1.0",
+    "description": "Hides the difficulty level and topics for each question on LeetCode.",
+    "permissions": [],
+    "host_permissions": [
+        "https://leetcode.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://leetcode.com/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "css": [
+                "styles.css"
+            ]
+        }
+    ]
+}
