@@ -1,7 +1,14 @@
+/* Difficulty */
 .difficulty-label {
   display: none !important;
 }
 
+/* Acceptance Rate */
+.text-acceptance-rate {
+  display: none !important;
+}
+
+/* Topics */
 .topic-tag {
   display: none !important;
 }

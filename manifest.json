@@ -1,12 +1,21 @@
 {
     "manifest_version": 3,
-    "name": "Hide LeetCode Details",
+    "name": "LeetClean",
     "version": "1.0",
-    "description": "Hides the difficulty level and topics for each question on LeetCode.",
-    "permissions": [],
+    "description": "Customize your LeetCode experience by hiding or unhiding difficulty, acceptance rate, and topics.",
+    "permissions": [
+        "storage",
+        "activeTab",
+        "tabs",
+        "notifications"
+    ],
     "host_permissions": [
         "https://leetcode.com/*"
     ],
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": "icons/icon128.png"
+    },
     "content_scripts": [
         {
             "matches": [
@@ -16,8 +25,14 @@
                 "content.js"
             ],
             "css": [
-                "styles.css"
+                "style.css"
             ]
         }
-    ]
+    ],
+    "icons": {
+        "16": "icons/icon16.png",
+        "32": "icons/icon32.png",
+        "64": "icons/icon64.png",
+        "128": "icons/icon128.png"
+    }
 }
