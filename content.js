@@ -83,9 +83,10 @@ function toggleDifficulty(hide) {
   try {
     console.log(`Toggling difficulty ${hide ? "off" : "on"}`);
     const difficulties = ["Easy", "Medium", "Hard"];
-    // Updated selector for difficulty labels
+
+    // Target the specific difficulty label elements
     const elements = document.querySelectorAll(
-      'div[class*="text-difficulty-"], div[class*="bg-fill-secondary text-difficulty"]'
+      'div.relative.inline-flex.items-center.justify-center.text-caption[class*="text-difficulty-"]'
     );
     console.log(`Found ${elements.length} difficulty elements`);
 
@@ -94,7 +95,7 @@ function toggleDifficulty(hide) {
       console.log("Processing element:", text);
       if (difficulties.includes(text)) {
         console.log(`Hiding difficulty element: ${text}`);
-        el.parentElement.style.display = hide ? "none" : "flex";
+        el.style.display = hide ? "none" : "inline-flex";
       }
     });
   } catch (error) {
@@ -123,28 +124,15 @@ function toggleAcceptance(hide) {
 function toggleTopics(hide) {
   try {
     console.log(`Toggling topics ${hide ? "off" : "on"}`);
-    // Updated selectors for topics
-    const topicButtons = document.querySelectorAll(
-      'div[class*="rounded-full"]:has(div:contains("Topics")), div.group:has(div:contains("Topics"))'
+    // Target the specific Topics button element
+    const elements = document.querySelectorAll(
+      'div.relative.inline-flex.items-center.justify-center.text-caption.rounded-full.bg-fill-secondary:has(div:contains("Topics"))'
     );
-    console.log(`Found ${topicButtons.length} topic elements`);
+    console.log(`Found ${elements.length} topic elements`);
 
-    topicButtons.forEach((el) => {
+    elements.forEach((el) => {
       console.log(`Hiding topic button: ${el.textContent.trim()}`);
-      el.style.display = hide ? "none" : "flex";
-    });
-
-    // Also hide the topic tags if they exist
-    const topicTags = document.querySelectorAll(
-      'a[class*="tag"], div[class*="tag"]'
-    );
-    console.log(`Found ${topicTags.length} topic tags`);
-
-    topicTags.forEach((el) => {
-      if (!el.textContent.includes("Topics")) {
-        // Don't hide the "Topics" button itself
-        el.style.display = hide ? "none" : "inline-flex";
-      }
+      el.style.display = hide ? "none" : "inline-flex";
     });
   } catch (error) {
     console.error("Error toggling topics:", error);
