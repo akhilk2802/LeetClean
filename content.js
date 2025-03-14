@@ -2,6 +2,7 @@
 let globalObserver = null;
 
 function initialize() {
+  console.log("Initializing LeetClean extension...");
   chrome.storage.sync.get(
     {
       hideDifficulty: true,
@@ -10,6 +11,7 @@ function initialize() {
     },
     (settings) => {
       try {
+        console.log("Initial settings:", settings);
         if (settings.hideDifficulty) toggleDifficulty(true);
         if (settings.hideAcceptance) toggleAcceptance(true);
         if (settings.hideTopics) toggleTopics(true);
@@ -52,6 +54,7 @@ function setupObserver() {
         },
         (settings) => {
           try {
+            console.log("Reapplying settings:", settings);
             if (settings.hideDifficulty) toggleDifficulty(true);
             if (settings.hideAcceptance) toggleAcceptance(true);
             if (settings.hideTopics) toggleTopics(true);
@@ -78,14 +81,22 @@ function setupObserver() {
 // Improved toggle functions with error handling
 function toggleDifficulty(hide) {
   try {
+    console.log(`Toggling difficulty ${hide ? "off" : "on"}`);
     const difficulties = ["Easy", "Medium", "Hard"];
-    document
-      .querySelectorAll("span[data-difficulty], div[data-difficulty]")
-      .forEach((el) => {
-        if (difficulties.includes(el.textContent.trim())) {
-          el.style.display = hide ? "none" : "";
-        }
-      });
+    // Updated selector for difficulty labels
+    const elements = document.querySelectorAll(
+      'div[class*="text-difficulty-"], div[class*="bg-fill-secondary text-difficulty"]'
+    );
+    console.log(`Found ${elements.length} difficulty elements`);
+
+    elements.forEach((el) => {
+      const text = el.textContent.trim();
+      console.log("Processing element:", text);
+      if (difficulties.includes(text)) {
+        console.log(`Hiding difficulty element: ${text}`);
+        el.parentElement.style.display = hide ? "none" : "flex";
+      }
+    });
   } catch (error) {
     console.error("Error toggling difficulty:", error);
   }
@@ -93,11 +104,16 @@ function toggleDifficulty(hide) {
 
 function toggleAcceptance(hide) {
   try {
-    document.querySelectorAll("div[role='cell']").forEach((el) => {
-      const text = el.textContent.trim();
-      if (/^\d+\.?\d*%$/.test(text)) {
-        el.style.display = hide ? "none" : "";
-      }
+    console.log(`Toggling acceptance rate ${hide ? "off" : "on"}`);
+    // Updated selector for acceptance rate
+    const elements = document.querySelectorAll(
+      'div.mr-4:has(div:contains("Acceptance Rate")), div:has(> div.text-label-2:contains("Acceptance Rate"))'
+    );
+    console.log(`Found ${elements.length} acceptance rate elements`);
+
+    elements.forEach((el) => {
+      console.log(`Hiding acceptance rate container`);
+      el.style.display = hide ? "none" : "flex";
     });
   } catch (error) {
     console.error("Error toggling acceptance rate:", error);
@@ -106,8 +122,29 @@ function toggleAcceptance(hide) {
 
 function toggleTopics(hide) {
   try {
-    document.querySelectorAll(".topic-tag, .tag__1z4C").forEach((el) => {
-      el.style.display = hide ? "none" : "";
+    console.log(`Toggling topics ${hide ? "off" : "on"}`);
+    // Updated selectors for topics
+    const topicButtons = document.querySelectorAll(
+      'div[class*="rounded-full"]:has(div:contains("Topics")), div.group:has(div:contains("Topics"))'
+    );
+    console.log(`Found ${topicButtons.length} topic elements`);
+
+    topicButtons.forEach((el) => {
+      console.log(`Hiding topic button: ${el.textContent.trim()}`);
+      el.style.display = hide ? "none" : "flex";
+    });
+
+    // Also hide the topic tags if they exist
+    const topicTags = document.querySelectorAll(
+      'a[class*="tag"], div[class*="tag"]'
+    );
+    console.log(`Found ${topicTags.length} topic tags`);
+
+    topicTags.forEach((el) => {
+      if (!el.textContent.includes("Topics")) {
+        // Don't hide the "Topics" button itself
+        el.style.display = hide ? "none" : "inline-flex";
+      }
     });
   } catch (error) {
     console.error("Error toggling topics:", error);
