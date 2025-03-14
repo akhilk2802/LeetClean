@@ -21,9 +21,12 @@ chrome.runtime.onInstalled.addListener((details) => {
 // Function to reload open LeetCode.com tabs
 function reloadLeetCodeTabs() {
   chrome.tabs.query({ url: "*://*.leetcode.com/*" }, (tabs) => {
-    tabs.forEach((tab) => {
-      chrome.tabs.reload(tab.id);
-    });
+    if (tabs.length) {
+      notifyUser(
+        "LeetClean Updated",
+        "Please refresh your LeetCode tabs to apply the updates."
+      );
+    }
   });
 }
 

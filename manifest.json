@@ -5,7 +5,6 @@
     "description": "Customize your LeetCode experience by hiding or unhiding difficulty, acceptance rate, and topics.",
     "permissions": [
         "storage",
-        "activeTab",
         "tabs",
         "notifications"
     ],
@@ -23,9 +22,6 @@
             ],
             "js": [
                 "content.js"
-            ],
-            "css": [
-                "style.css"
             ]
         }
     ],

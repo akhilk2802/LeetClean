@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const difficultyCheckbox = document.getElementById("toggle-difficulty");
-  const acceptanceCheckbox = document.getElementById("toggle-acceptance");
+  const acceptanceCheckbox = document.getElementById("toggle-acceptance-rate");
   const topicsCheckbox = document.getElementById("toggle-topics");
 
   // Load initial settings from storage
@@ -21,10 +21,13 @@ document.addEventListener("DOMContentLoaded", () => {
   difficultyCheckbox.addEventListener("change", () => {
     const isHidden = difficultyCheckbox.checked;
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        action: "toggleDifficulty",
-        isHidden,
-      });
+      const tab = tabs[0];
+      if (tab.url.includes("leetcode.com")) {
+        chrome.tabs.sendMessage(tab.id, {
+          action: "toggleDifficulty",
+          isHidden,
+        });
+      }
     });
   });
 
